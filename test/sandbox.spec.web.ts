@@ -1,3 +1,4 @@
+/** @env browser */
 import { createSandbox } from '..'
 
 describe('createSandbox', () => {

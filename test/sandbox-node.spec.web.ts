@@ -1,3 +1,4 @@
+/** @env browser */
 import { SandboxNode } from '..'
 
 const ctx = new AudioContext()

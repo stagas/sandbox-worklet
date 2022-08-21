@@ -9,7 +9,8 @@ export type Sandbox = {
 export const createSandbox = () => {
   const iframe = document.createElement('iframe')
 
-  iframe.setAttribute('sandbox', 'allow-scripts')
+  iframe.setAttribute('sandbox', 'allow-scripts' + (+location.port > 1000 ? ' allow-same-origin' : ''))
+  iframe.setAttribute('loading', 'lazy')
 
   iframe.setAttribute(
     'csp',
@@ -25,7 +26,10 @@ export const createSandbox = () => {
   const src = new URL('sandbox-iframe.js', import.meta.url).href
 
   iframe.style.display = 'none'
-  iframe.srcdoc = `<script src="${src}" type="module"></script>`
+  iframe.srcdoc = `
+    <meta http-equiv="cache-control" content="public, max-age=0, no-cache">
+    <script src="${src}" type="module" async defer></script>
+  `
   document.body.appendChild(iframe)
 
   return new Promise<Sandbox>(resolve => {
